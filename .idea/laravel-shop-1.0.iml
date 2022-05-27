@@ -146,6 +146,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/http-factory" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/overtrue/easy-sms" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/gregwar/captcha" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/overtrue/socialite" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/overtrue/laravel-socialite" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/psr-http-message-bridge" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

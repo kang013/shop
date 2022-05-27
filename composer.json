@@ -23,6 +23,7 @@
         "moontoast/math": "^1.2",
         "overtrue/easy-sms": "^2.1",
         "overtrue/laravel-lang": "^4.2",
+        "overtrue/laravel-socialite": "~3.0",
         "yansongda/pay": "^2.10"
     },
     "require-dev": {

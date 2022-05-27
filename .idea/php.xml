@@ -139,6 +139,9 @@
       <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
       <path value="$PROJECT_DIR$/vendor/overtrue/easy-sms" />
       <path value="$PROJECT_DIR$/vendor/gregwar/captcha" />
+      <path value="$PROJECT_DIR$/vendor/overtrue/socialite" />
+      <path value="$PROJECT_DIR$/vendor/overtrue/laravel-socialite" />
+      <path value="$PROJECT_DIR$/vendor/symfony/psr-http-message-bridge" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
