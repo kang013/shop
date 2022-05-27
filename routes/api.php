@@ -13,6 +13,11 @@ Route::prefix('v1')
         // 用户注册
         Route::post('users', 'UsersController@store')
             ->name('users.store');
+        // 第三方登录
+        //注意这里的参数，我们对 social_type 进行了限制，只会匹配 wechat，如果你增加了其他的第三方登录，可以在这里增加限制，例如支持微信及微博：->where('social_type', 'wechat|weibo')
+        Route::post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
+            ->where('social_type', 'wechat')
+            ->name('socials.authorizations.store');
 
         Route::middleware('throttle:' . config('api.rate_limits.access'))
             ->group(function () {
