@@ -42,6 +42,8 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+            \App\Http\Middleware\AcceptHeader::class, // 添加Accept头中间件
         ],
     ];
 
