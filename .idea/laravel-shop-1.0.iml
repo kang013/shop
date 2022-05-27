@@ -149,6 +149,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/overtrue/socialite" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/overtrue/laravel-socialite" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/psr-http-message-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/namshi/jose" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/tymon/jwt-auth" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/lcobucci/jwt" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
