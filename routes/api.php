@@ -49,6 +49,8 @@ Route::prefix('v1')
                     // 上传图片
                     Route::post('images', 'ImagesController@store')
                         ->name('images.store');
+                    // 地址列表
+                    Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index');
                 });
             });
     });
