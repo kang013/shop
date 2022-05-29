@@ -51,6 +51,8 @@ Route::prefix('v1')
                         ->name('images.store');
                     // 地址列表
                     Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index');
+                    // 添加地址
+                    Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store');
                 });
             });
     });
