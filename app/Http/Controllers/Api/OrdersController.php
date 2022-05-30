@@ -150,6 +150,15 @@ class OrdersController extends Controller
         return response()->json();
     }
 
+    /**
+     * 退款申请
+     *
+     * @param Order $order
+     * @param ApplyRefundRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws InvalidRequestException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function applyRefund(Order $order, ApplyRefundRequest $request)
     {
         // 校验订单是否属于当前用户
@@ -175,7 +184,7 @@ class OrdersController extends Controller
             'extra'         => $extra,
         ]);
 
-        return $order;
+        return response()->json($order);
     }
 
     // 创建一个新的方法用于接受众筹商品下单请求
