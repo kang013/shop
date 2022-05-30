@@ -48,4 +48,19 @@ Route::group([
     $router->get('seckill_products/{id}/edit', 'SeckillProductsController@edit');
     $router->put('seckill_products/{id}', 'SeckillProductsController@update');
 
+    // 幻灯片分类
+    $router->get('slide_categories', 'SlideCategoriesController@index');
+    $router->get('slide_categories/create', 'SlideCategoriesController@create');
+    $router->get('slide_categories/{id}/edit', 'SlideCategoriesController@edit');
+    $router->post('slide_categories', 'SlideCategoriesController@store');
+    $router->put('slide_categories/{id}', 'SlideCategoriesController@update');
+    $router->delete('slide_categories/{id}', 'SlideCategoriesController@destroy');
+    // 轮播图
+    $router->get('slide', 'SlideController@index');
+    $router->get('slide/create', 'SlideController@create');
+    $router->get('slide/{id}/edit', 'SlideController@edit');
+    $router->post('slide', 'SlideController@store');
+    $router->put('slide/{id}', 'SlideController@update');
+    $router->delete('slide/{id}', 'SlideController@destroy');
+
 });
