@@ -76,7 +76,7 @@ Route::prefix('v1')
                     // 众筹
                     Route::post('crowdfunding_orders', 'OrdersController@crowdfunding')->name('crowdfunding_orders.store');
                     // 秒杀下单
-                    Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store');
+                    Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store')->middleware('random_drop:10');
                 });
             });
 
