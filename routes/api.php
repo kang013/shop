@@ -73,6 +73,8 @@ Route::prefix('v1')
                     Route::post('orders/{order}/apply_refund', 'OrdersController@applyRefund')->name('orders.apply_refund');
                     // 优惠券
                     Route::get('coupon_codes/{code}', 'CouponCodesController@show')->name('coupon_codes.show');
+                    // 众筹
+                    Route::post('crowdfunding_orders', 'OrdersController@crowdfunding')->name('crowdfunding_orders.store');
                 });
             });
 
