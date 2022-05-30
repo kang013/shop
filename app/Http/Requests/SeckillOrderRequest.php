@@ -1,13 +1,13 @@
 <?php
 namespace App\Http\Requests;
 
+use App\Exceptions\InvalidRequestException;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductSku;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Auth\AuthenticationException;
-use App\Exceptions\InvalidRequestException;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Validation\Rule;
 
 class SeckillOrderRequest extends Request
 {
@@ -22,7 +22,7 @@ class SeckillOrderRequest extends Request
             'address.zip'           => 'required',
             'address.contact_name'  => 'required',
             'address.contact_phone' => 'required',
-            'sku_id'                => [
+            'sku_id'     => [
                 'required',
                 function ($attribute, $value, $fail) {
                     // 从 Redis 中读取数据
@@ -45,17 +45,32 @@ class SeckillOrderRequest extends Request
                     if ($sku->product->seckill->is_after_end) {
                         return $fail('秒杀已经结束');
                     }
-
                     if (!$user = \Auth::user()) {
                         throw new AuthenticationException('请先登录');
                     }
                     if (!$user->email_verified_at) {
                         throw new InvalidRequestException('请先验证邮箱');
                     }
+
                     if ($order = Order::query()
-                        .
-                        .
-                        .
+                        // 筛选出当前用户的订单
+                        ->where('user_id', $this->user()->id)
+                        ->whereHas('items', function ($query) use ($value) {
+                            // 筛选出包含当前 SKU 的订单
+                            $query->where('product_sku_id', $value);
+                        })
+                        ->where(function ($query) {
+                            // 已支付的订单
+                            $query->whereNotNull('paid_at')
+                                // 或者未关闭的订单
+                                ->orWhere('closed', false);
+                        })
+                        ->first()) {
+                        if ($order->paid_at) {
+                            return $fail('你已经抢购了该商品');
+                        }
+
+                        return $fail('你已经下单了该商品，请到订单页面支付');
                     }
                 },
             ],
