@@ -28,6 +28,7 @@ Route::prefix('v1')
         Route::delete('authorizations/current', 'AuthorizationsController@destroy')
             ->name('authorizations.destroy');
 
+
         Route::middleware('throttle:' . config('api.rate_limits.access'))
             ->group(function () {
                 // 游客可以访问的接口
@@ -54,6 +55,14 @@ Route::prefix('v1')
                     Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store');
                     Route::put('user_addresses/{user_address}', 'UserAddressesController@update')->name('user_addresses.update');
                     Route::delete('user_addresses/{user_address}', 'UserAddressesController@destroy')->name('user_addresses.destroy');
+                    // 商品收藏
+                    Route::post('products/{product}/favorite', 'ProductsController@favor')->name('products.favor');
+                    Route::delete('products/{product}/favorite', 'ProductsController@disfavor')->name('products.disfavor');
+                    Route::get('products/favorites', 'ProductsController@favorites')->name('products.favorites');
                 });
             });
+
+        // 商品
+        Route::get('products', 'ProductsController@index')->name('products.index');
+        Route::get('products/{product}', 'ProductsController@show')->name('products.show');
     });
