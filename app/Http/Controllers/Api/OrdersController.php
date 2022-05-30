@@ -64,6 +64,15 @@ class OrdersController extends Controller
         return response()->json(['order' => $order->load(['items.productSku', 'items.product'])]);
     }
 
+    /**
+     * 确认收货
+     *
+     * @param Order $order
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws InvalidRequestException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function received(Order $order, Request $request)
     {
         // 校验权限
@@ -78,9 +87,17 @@ class OrdersController extends Controller
         $order->update(['ship_status' => Order::SHIP_STATUS_RECEIVED]);
 
         // 返回订单信息
-        return $order;
+        return response()->json($order);
     }
 
+    /**
+     * 评价商品
+     *
+     * @param Order $order
+     * @return \Illuminate\Http\JsonResponse
+     * @throws InvalidRequestException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function review(Order $order)
     {
         // 校验权限
@@ -90,9 +107,18 @@ class OrdersController extends Controller
             throw new InvalidRequestException('该订单未支付，不可评价');
         }
         // 使用 load 方法加载关联数据，避免 N + 1 性能问题
-        return view('orders.review', ['order' => $order->load(['items.productSku', 'items.product'])]);
+        return response()->json(['order' => $order->load(['items.productSku', 'items.product'])]);
     }
 
+    /**
+     * 评价商品
+     *
+     * @param Order $order
+     * @param SendReviewRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws InvalidRequestException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function sendReview(Order $order, SendReviewRequest $request)
     {
         // 校验权限
@@ -122,7 +148,7 @@ class OrdersController extends Controller
         });
         event(new OrderReviewed($order));
 
-        return redirect()->back();
+        return response()->json();
     }
 
     public function applyRefund(Order $order, ApplyRefundRequest $request)
