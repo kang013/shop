@@ -49,10 +49,11 @@ Route::prefix('v1')
                     // 上传图片
                     Route::post('images', 'ImagesController@store')
                         ->name('images.store');
-                    // 地址列表
+                    // 收货地址
                     Route::get('user_addresses', 'UserAddressesController@index')->name('user_addresses.index');
-                    // 添加地址
                     Route::post('user_addresses', 'UserAddressesController@store')->name('user_addresses.store');
+                    Route::put('user_addresses/{user_address}', 'UserAddressesController@update')->name('user_addresses.update');
+                    Route::delete('user_addresses/{user_address}', 'UserAddressesController@destroy')->name('user_addresses.destroy');
                 });
             });
     });
