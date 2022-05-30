@@ -9,21 +9,20 @@ class SendReviewRequest extends Request
     public function rules()
     {
         return [
-            'reviews'          => ['required', 'array'],
-            'reviews.*.id'     => [
+            'id'     => [
                 'required',
                 Rule::exists('order_items', 'id')->where('order_id', $this->route('order')->id)
             ],
-            'reviews.*.rating' => ['required', 'integer', 'between:1,5'],
-            'reviews.*.review' => ['required'],
+            'rating' => ['required', 'integer', 'between:1,5'],
+            'review' => ['required'],
         ];
     }
 
     public function attributes()
     {
         return [
-            'reviews.*.rating' => '评分',
-            'reviews.*.review' => '评价',
+            'rating' => '评分',
+            'review' => '评价',
         ];
     }
 }

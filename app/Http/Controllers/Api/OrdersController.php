@@ -130,22 +130,21 @@ class OrdersController extends Controller
         if ($order->reviewed) {
             throw new InvalidRequestException('该订单已评价，不可重复提交');
         }
-        $reviews = $request->input('reviews');
+        $reviews = $request->input();
+
         // 开启事务
         \DB::transaction(function () use ($reviews, $order) {
-            // 遍历用户提交的数据
-            foreach ($reviews as $review) {
-                $orderItem = $order->items()->find($review['id']);
-                // 保存评分和评价
-                $orderItem->update([
-                    'rating'      => $review['rating'],
-                    'review'      => $review['review'],
-                    'reviewed_at' => Carbon::now(),
-                ]);
-            }
+            $orderItem = $order->items()->find($reviews['id']);
+            // 保存评分和评价
+            $orderItem->update([
+                'rating'      => $reviews['rating'],
+                'review'      => $reviews['review'],
+                'reviewed_at' => Carbon::now(),
+            ]);
             // 将订单标记为已评价
             $order->update(['reviewed' => true]);
         });
+
         event(new OrderReviewed($order));
 
         return response()->json();
