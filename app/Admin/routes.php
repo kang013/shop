@@ -1,5 +1,6 @@
 <?php
 
+use App\Admin\Controllers\SettingsController;
 use Illuminate\Routing\Router;
 
 Admin::routes();
@@ -63,4 +64,6 @@ Route::group([
     $router->put('slide/{id}', 'SlideController@update');
     $router->delete('slide/{id}', 'SlideController@destroy');
 
+    $router->resource('settings', 'SettingsController');
+    //$router->resource('settings', SettingsController::class);
 });
