@@ -47,7 +47,7 @@ class CategoriesController extends AdminController
         $form = new Form(new Category);
 
         $form->text('name', '类目名称')->rules('required');
-
+        $form->image('image', '图片')->rules('image');
         // 如果是编辑的情况
         if ($isEditing) {
             // 不允许用户修改『是否目录』和『父类目』字段的值

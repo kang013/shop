@@ -47,6 +47,8 @@ Route::prefix('v1')
                     // 编辑登录用户信息
                     Route::patch('user', 'UsersController@update')
                         ->name('user.update');
+                    Route::put('user', 'UsersController@update')
+                        ->name('user.update');
                     // 上传图片
                     Route::post('images', 'ImagesController@store')
                         ->name('images.store');
@@ -83,4 +85,6 @@ Route::prefix('v1')
         // 商品
         Route::get('products', 'ProductsController@index')->name('products.index');
         Route::get('products/{product}', 'ProductsController@show')->name('products.show');
+        // 分类
+        Route::get('categories', 'CategoriesController@index')->name('categories.index');
     });

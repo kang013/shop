@@ -4,14 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
     use HasFactory;
-protected $fillable = ['name', 'is_directory', 'level', 'path'];
+protected $fillable = ['name', 'is_directory', 'level', 'path','image'];
     protected $casts = [
         'is_directory' => 'boolean',
     ];
+    protected $appends = ['image_url'];
 
     protected static function boot()
     {
@@ -76,4 +78,14 @@ protected $fillable = ['name', 'is_directory', 'level', 'path'];
 					->push($this->name) // 将当前类目的 name 字段值加到数组的末尾
 					->implode(' - '); // 用 - 符号将数组的值组装成一个字符串
     }
+
+    public function getImageUrlAttribute()
+    {
+        // 如果 image 字段本身就已经是完整的 url 就直接返回
+        if (Str::startsWith($this->attributes['image'], ['http://', 'https://'])) {
+            return $this->attributes['image'];
+        }
+        return \Storage::disk('public')->url($this->attributes['image']);
+    }
+
 }
