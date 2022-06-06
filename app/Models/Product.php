@@ -30,6 +30,8 @@ class Product extends Model
     protected $casts = [
         'on_sale' => 'boolean', // on_sale 是一个布尔类型的字段
     ];
+    protected $appends = ['images_url'];
+
     // 与商品SKU关联
     public function skus()
     {
@@ -127,6 +129,18 @@ class Product extends Model
     public function getImagesAttribute($pictures)
     {
         return json_decode($pictures, true);
+    }
+
+    public function getImagesUrlAttribute()
+    {
+        $collection = collect($this->images)->map(function ($value, $key) {
+            // 如果 image 字段本身就已经是完整的 url 就直接返回
+            if (Str::startsWith($value, ['http://', 'https://'])) {
+                return $value;
+            }
+            return \Storage::disk('public')->url($value);
+        })->all();
+        return $collection;
     }
 
 }
