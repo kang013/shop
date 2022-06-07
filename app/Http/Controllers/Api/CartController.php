@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddCartRequest;
 use App\Models\ProductSku;
@@ -32,9 +33,17 @@ class CartController extends Controller
         return [];
     }
 
-    public function remove(ProductSku $sku, Request $request)
+    public function remove(CartItem $cartItem, Request $request)
     {
-        $this->cartService->remove($sku->id);
+        // 修改成策略
+        $this->authorize('own', $cartItem);
+        $result = $request->all();
+        if(!empty($result['all'])){
+            return $cartItem->where('user_id',$cartItem->user_id)->delete();
+        }else{
+            $cartItem->delete();
+        }
+
 
         return [];
     }

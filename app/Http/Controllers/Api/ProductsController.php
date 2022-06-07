@@ -126,6 +126,7 @@ class ProductsController extends Controller
         // 最后别忘了注入到模板中
         return response()->json([
             'product' => $product,
+            'skus' => $product->skus,
             'favored' => $favored,
             'reviews' => $reviews,
             'similar' => $similarProducts,
