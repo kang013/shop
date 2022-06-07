@@ -21,7 +21,7 @@ class CreateUserAddressesTable extends Migration
             $table->string('city');
             $table->string('district');
             $table->string('address');
-            $table->unsignedInteger('zip');
+            $table->unsignedInteger('zip')->default(0);
             $table->string('contact_name');
             $table->string('contact_phone');
             $table->dateTime('last_used_at')->nullable();
