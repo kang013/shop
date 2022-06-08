@@ -47,10 +47,26 @@ class OrdersController extends Controller
 
     public function index(Request $request)
     {
+        $status = $request->get('status','');
+        $shipStatus = $request->get('shipStatus','');
+        $where['user_id'] = $request->user()->id;
+        $whereIn = ['pending'];
+        if(!empty($status)){
+            if($status == 'applied'){
+                // 售後
+                $whereIn = ['applied','processing','success','failed'];
+            }
+            $where['refund_status'] = $status;
+        }
+        if(!empty($shipStatus)){
+            $where['ship_status'] = $shipStatus;
+        }
+
         $orders = Order::query()
             // 使用 with 方法预加载，避免N + 1问题
             ->with(['items.product', 'items.productSku'])
-            ->where('user_id', $request->user()->id)
+            ->where($where)
+            ->whereIn('refund_status',$whereIn)
             ->orderBy('created_at', 'desc')
             ->paginate();
 
