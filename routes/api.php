@@ -74,12 +74,17 @@ Route::prefix('v1')
                     Route::get('orders/{order}/review', 'OrdersController@review')->name('orders.review.show');
                     Route::post('orders/{order}/review', 'OrdersController@sendReview')->name('orders.review.store');
                     Route::post('orders/{order}/apply_refund', 'OrdersController@applyRefund')->name('orders.apply_refund');
+                    // 支付
+                    Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
+                    Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
+                    Route::get('payment/{order}/wechat', 'PaymentController@payByWechat')->name('payment.wechat');
                     // 优惠券
                     Route::get('coupon_codes/{code}', 'CouponCodesController@show')->name('coupon_codes.show');
                     // 众筹
                     Route::post('crowdfunding_orders', 'OrdersController@crowdfunding')->name('crowdfunding_orders.store');
                     // 秒杀下单
                     Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store')->middleware('random_drop:10');
+
                 });
             });
 
@@ -88,4 +93,8 @@ Route::prefix('v1')
         Route::get('products/{product}', 'ProductsController@show')->name('products.show');
         // 分类
         Route::get('categories', 'CategoriesController@index')->name('categories.index');
+        // 支付回调
+        Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
+        Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
+        Route::post('payment/wechat/refund_notify', 'PaymentController@wechatRefundNotify')->name('payment.wechat.refund_notify');
     });

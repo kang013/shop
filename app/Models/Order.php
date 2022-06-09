@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
@@ -74,6 +76,14 @@ class Order extends Model
         'paid_at',
     ];
 
+    protected $appends = ['order_status','order_closed','logistics_status'];
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        // 日期序列化
+        return $date->format('Y-m-d H:i:s');
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -133,4 +143,40 @@ class Order extends Model
     {
         return $this->belongsTo(CouponCode::class);
     }
+
+    /**
+     * 获取订单状态
+     *
+     * @return string|void
+     */
+    public function getOrderStatusAttribute()
+    {
+        if(!empty($this->refund_status)){
+            return Order::$refundStatusMap[$this->refund_status];
+        }
+    }
+
+    /**
+     * 物流状态
+     *
+     * @return string|void
+     */
+    public function getLogisticsStatusAttribute()
+    {
+        if(!empty($this->ship_status)){
+            return Order::$shipStatusMap[$this->ship_status];
+        }
+    }
+
+    /**
+     * 订单关闭时间
+     *
+     * @return mixed
+     */
+    public function getOrderClosedAttribute()
+    {
+        return $this->created_at->addSeconds(config('app.order_ttl'))->format('H:i');
+    }
+
+
 }
