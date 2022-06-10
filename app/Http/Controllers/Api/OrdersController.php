@@ -17,6 +17,7 @@ use App\Models\CouponCode;
 use App\Http\Requests\CrowdFundingOrderRequest;
 use App\Models\ProductSku;
 use App\Http\Requests\SeckillOrderRequest;
+use Illuminate\Support\Facades\Redis;
 
 class OrdersController extends Controller
 {
@@ -50,18 +51,20 @@ class OrdersController extends Controller
         $status = $request->get('status','');
         $shipStatus = $request->get('shipStatus','');
         $where['user_id'] = $request->user()->id;
-        $whereIn = ['pending'];
+        $whereIn = ['pending','applied','processing','success','failed'];
+        $where['is_del'] = false;
         if(!empty($status)){
             if($status == 'applied'){
                 // 售後
                 $whereIn = ['applied','processing','success','failed'];
             }
             $where['refund_status'] = $status;
+            $where['closed'] = false;
         }
         if(!empty($shipStatus)){
             $where['ship_status'] = $shipStatus;
+            $where['closed'] = false;
         }
-
         $orders = Order::query()
             // 使用 with 方法预加载，避免N + 1问题
             ->with(['items.product', 'items.productSku'])
@@ -70,12 +73,17 @@ class OrdersController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate();
 
+
         return response()->json($orders);
     }
 
     public function show(Order $order, Request $request)
     {
         $this->authorize('own', $order);
+        // 判断订单是否已删除
+        if ($order->is_del) {
+            throw new InvalidRequestException('订单不存在');
+        }
 
         return response()->json(['order' => $order->load(['items.productSku', 'items.product'])]);
     }
@@ -107,7 +115,7 @@ class OrdersController extends Controller
     }
 
     /**
-     * 评价商品
+     * 评价商品页面
      *
      * @param Order $order
      * @return \Illuminate\Http\JsonResponse
@@ -212,5 +220,64 @@ class OrdersController extends Controller
         $amount  = $request->input('amount');
 
         return $orderService->crowdfunding($user, $address, $sku, $amount);
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param Order $order
+     * @return void
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function cancel(Order $order)
+    {
+        // 校验订单是否属于当前用户
+        $this->authorize('own', $order);
+        // 判断对应的订单是否已经被支付
+        // 如果已经支付则不需要关闭订单，直接退出
+        if ($order->paid_at) {
+            return;
+        }
+        if ($order->closed) {
+            return;
+        }
+        // 通过事务执行 sql
+        \DB::transaction(function () use ($order) {
+            $order->update(['closed' => true]);
+            foreach ($order->items as $item) {
+                $item->productSku->addStock($item->amount);
+                // 当前订单类型是秒杀订单，并且对应商品是上架且尚未到截止时间
+                if ($item->order->type === Order::TYPE_SECKILL
+                    && $item->product->on_sale
+                    && !$item->product->seckill->is_after_end) {
+                    // 将 Redis 中的库存 +1
+                    Redis::incr('seckill_sku_'.$item->productSku->id);
+                }
+            }
+            if ($order->couponCode) {
+                $order->couponCode->changeUsed(false);
+            }
+        });
+    }
+
+    /**
+     * 删除订单
+     *
+     * @param Order $order
+     * @return void
+     * @throws InvalidRequestException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function delete(Order $order)
+    {
+        // 校验订单是否属于当前用户
+        $this->authorize('own', $order);
+        // 只有关闭的订单才可以删除
+        if (!$order->closed) {
+            throw new InvalidRequestException('该订单正常，不可删除');
+        }
+        $order->update([
+            'is_del' => true,
+        ]);
     }
 }
