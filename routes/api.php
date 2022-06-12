@@ -87,6 +87,8 @@ Route::prefix('v1')
                     // 秒杀下单
                     Route::post('seckill_orders', 'OrdersController@seckill')->name('seckill_orders.store')->middleware('random_drop:10');
 
+                    // 商品详情，执行登录后的
+                    Route::get('products/{product}/auth', 'ProductsController@show')->name('products.show.auth');
                 });
             });
 
