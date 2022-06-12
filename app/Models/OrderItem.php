@@ -10,6 +10,9 @@ class OrderItem extends Model
     use HasFactory;
 
     protected $fillable = ['amount', 'price', 'rating', 'review', 'reviewed_at'];
+    protected $casts = [
+        'reviewed_at'    => 'datetime:Y-m-d',
+    ];
     protected $dates = ['reviewed_at'];
     public $timestamps = false;
 
@@ -27,4 +30,5 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
 }

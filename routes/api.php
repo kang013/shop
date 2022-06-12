@@ -93,6 +93,7 @@ Route::prefix('v1')
         // 商品
         Route::get('products', 'ProductsController@index')->name('products.index');
         Route::get('products/{product}', 'ProductsController@show')->name('products.show');
+        Route::get('products/{product}/review', 'ProductsController@review')->name('products.review');
         // 分类
         Route::get('categories', 'CategoriesController@index')->name('categories.index');
         // 支付回调

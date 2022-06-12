@@ -117,8 +117,7 @@ class ProductsController extends Controller
             ->where('product_id', $product->id)
             ->whereNotNull('reviewed_at') // 筛选出已评价的
             ->orderBy('reviewed_at', 'desc') // 按评价时间倒序
-            ->limit(10) // 取出 10 条
-            ->get();
+            ->first();
 
         $similarProductIds = $service->getSimilarProductIds($product, 4);
         $similarProducts   = Product::query()->byIds($similarProductIds)->get();
@@ -158,5 +157,25 @@ class ProductsController extends Controller
         $products = $request->user()->favoriteProducts()->paginate(16);
 
         return response()->json(['products' => $products]);
+    }
+
+    /**
+     * 评价列表
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function review(Product $product, Request $request)
+    {
+        if (!$product->on_sale) {
+            throw new InvalidRequestException('商品未上架');
+        }
+        $reviews = OrderItem::query()
+            ->with(['order.user', 'productSku']) // 预先加载关联关系
+            ->where('product_id', $product->id)
+            ->whereNotNull('reviewed_at') // 筛选出已评价的
+            ->orderBy('reviewed_at', 'desc') // 按评价时间倒序
+            ->paginate(15);
+        return response()->json($reviews);
     }
 }
