@@ -122,13 +122,14 @@ class ProductsController extends Controller
         $similarProductIds = $service->getSimilarProductIds($product, 4);
         $similarProducts   = Product::query()->byIds($similarProductIds)->get();
 
-        // 最后别忘了注入到模板中
+
         return response()->json([
             'product' => $product,
             'skus' => $product->skus,
             'favored' => $favored,
             'reviews' => $reviews,
             'similar' => $similarProducts,
+            'seckill' => $product->seckill,
         ]);
     }
 

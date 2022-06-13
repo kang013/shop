@@ -19,7 +19,6 @@ class SeckillOrderRequest extends Request
             'address.city'          => 'required',
             'address.district'      => 'required',
             'address.address'       => 'required',
-            'address.zip'           => 'required',
             'address.contact_name'  => 'required',
             'address.contact_phone' => 'required',
             'sku_id'     => [
@@ -44,6 +43,10 @@ class SeckillOrderRequest extends Request
                     }
                     if ($sku->product->seckill->is_after_end) {
                         return $fail('秒杀已经结束');
+                    }
+                    if ($sku->product->type !== 'seckill') {
+                        // 接口只能下单秒杀商品
+                        return $fail('无法下单其他类型商品');
                     }
                     if (!$user = \Auth::user()) {
                         throw new AuthenticationException('请先登录');

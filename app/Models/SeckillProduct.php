@@ -17,6 +17,8 @@ class SeckillProduct extends Model
     protected $dates = ['start_at', 'end_at'];
     public $timestamps = false;
 
+    protected $appends = ['is_before_start','is_after_end','is_start'];
+
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -32,5 +34,11 @@ class SeckillProduct extends Model
     public function getIsAfterEndAttribute()
     {
         return Carbon::now()->gt($this->end_at);
+    }
+
+    // 定义一个名为 is_start 的访问器，秒杀开始时间大于当前时间返回 true
+    public function getIsStartAttribute()
+    {
+        return Carbon::now()->gt($this->start_at);
     }
 }

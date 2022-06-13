@@ -199,7 +199,6 @@ class OrderService
             $order = new Order([
                 'address'      => [ // address 字段直接从 $addressData 数组中读取
                     'address'       => $addressData['province'].$addressData['city'].$addressData['district'].$addressData['address'],
-                    'zip'           => $addressData['zip'],
                     'contact_name'  => $addressData['contact_name'],
                     'contact_phone' => $addressData['contact_phone'],
                 ],

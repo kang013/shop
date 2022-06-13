@@ -29,6 +29,10 @@ class OrderRequest extends Request
                     if ($sku->stock === 0) {
                         return $fail('该商品已售完');
                     }
+                    if ($sku->product->type !== 'normal') {
+                        // 接口只能下单普通商品
+                        return $fail('无法下单其他类型商品');
+                    }
                     // 获取当前索引
                     preg_match('/items\.(\d+)\.sku_id/', $attribute, $m);
                     $index = $m[1];
