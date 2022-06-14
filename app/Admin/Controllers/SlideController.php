@@ -60,10 +60,10 @@ class SlideController extends AdminController
         $form->select('category_id', '类目')->options($category);
         $form->image('image', '图片')->rules('required|image');;
         $form->url('url', '链接');
-        $form->switch('status', '是否显示');
+        $form->switch('status', '是否显示')->default(true);
         $form->text('description', '描述');
         $form->textarea('content', '内容');
-        $form->number('order','排序');
+        $form->number('order','排序')->default('100')->rules('required');
 
         return $form;
     }

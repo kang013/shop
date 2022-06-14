@@ -104,5 +104,9 @@ Route::prefix('v1')
         Route::post('payment/wechat/refund_notify', 'PaymentController@wechatRefundNotify')->name('payment.wechat.refund_notify');
 
         // 广告轮播图
-        Route::get('slide', 'SlideController@index')->name('slide.index');
+        Route::get('slide', 'HomeController@index')->name('slide');
+        // 首页秒杀列表
+        Route::get('seckill', 'HomeController@seckill')->name('seckill');
+        // 猜你喜欢
+        Route::get('like_product', 'HomeController@likeProduct')->name('like_product');
     });
