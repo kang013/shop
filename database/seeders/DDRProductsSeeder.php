@@ -31,6 +31,10 @@ class DDRProductsSeeder extends Seeder
                     ["name" => "内存容量", "value" => "4GB"],
                     ["name" => "内存容量", "value" => "16GB"],
                 ],
+                "images"  => [
+                    "https://img.alicdn.com/bao/uploaded/i2/TB1iqkaLVXXXXagXXXXObG1FpXX_091208.jpg_b.jpg",
+                    "https://img.alicdn.com/bao/uploaded/i2/TB1iqkaLVXXXXagXXXXObG1FpXX_091208.jpg_b.jpg",
+                ],
             ],
             [
                 "title"       => "AData/威刚 8G DDR4 2400 (XPG 单条） ",
@@ -47,6 +51,10 @@ class DDRProductsSeeder extends Seeder
                     ["name" => "传输类型", "value" => "DDR4"],
                     ["name" => "内存容量", "value" => "4GB"],
                     ["name" => "内存容量", "value" => "8GB"],
+                ],
+                "images"  => [
+                    "https://img.alicdn.com/bao/uploaded/i2/TB1iqkaLVXXXXagXXXXObG1FpXX_091208.jpg_b.jpg",
+                    "https://img.alicdn.com/bao/uploaded/i2/TB1iqkaLVXXXXagXXXXObG1FpXX_091208.jpg_b.jpg",
                 ],
             ],
             [
@@ -66,6 +74,10 @@ class DDRProductsSeeder extends Seeder
                     ["name" => "内存容量", "value" => "4GB"],
                     ["name" => "内存容量", "value" => "8GB"],
                 ],
+                "images"  => [
+                    "https://img.alicdn.com/bao/uploaded/i5/TB1up8DGXXXXXaAaXXXszso_pXX_060025.jpg_b.jpg",
+                    "https://img.alicdn.com/bao/uploaded/i5/TB1up8DGXXXXXaAaXXXszso_pXX_060025.jpg_b.jpg",
+                ],
             ],
             [
                 "title"       => "影驰 Gamer DDR4-2133 8G ",
@@ -84,6 +96,10 @@ class DDRProductsSeeder extends Seeder
                     ["name" => "传输类型", "value" => "DDR4"],
                     ["name" => "内存容量", "value" => "8GB"],
                     ["name" => "内存容量", "value" => "16GB"],
+                ],
+                "images"  => [
+                    "https://img.alicdn.com/bao/uploaded/i3/TB1oIQJKVXXXXc3XXXXa0s37FXX_013328.jpg_b.jpg",
+                    "https://img.alicdn.com/bao/uploaded/i3/TB1oIQJKVXXXXc3XXXXa0s37FXX_013328.jpg_b.jpg",
                 ],
             ],
             [
@@ -105,6 +121,10 @@ class DDRProductsSeeder extends Seeder
                     ["name" => "内存容量", "value" => "4GB"],
                     ["name" => "传输类型", "value" => "DDR4"],
                 ],
+                "images"  => [
+                    "https://img.alicdn.com/bao/uploaded/i2/TB1SynxMVXXXXaVXFXX_qyp.VXX_111729.jpg_b.jpg",
+                    "https://img.alicdn.com/bao/uploaded/i2/TB1SynxMVXXXXaVXFXX_qyp.VXX_111729.jpg_b.jpg",
+                ],
             ],
             [
                 "title"       => "Samsung/三星 8G DDR4 2400",
@@ -124,6 +144,10 @@ class DDRProductsSeeder extends Seeder
                     ["name" => "内存容量", "value" => "8GB"],
                     ["name" => "内存容量", "value" => "16GB"],
                 ],
+                "images"  => [
+                    "https://img.alicdn.com/bao/uploaded/i8/TB1nkDwATJYBeNjy1zelIqhzVXa_020604.jpg_b.jpg",
+                    "https://img.alicdn.com/bao/uploaded/i8/TB1nkDwATJYBeNjy1zelIqhzVXa_020604.jpg_b.jpg",
+                ],
             ],
         ];
 
@@ -139,6 +163,7 @@ class DDRProductsSeeder extends Seeder
                 'description',
                 'image',
                 'price',
+                'images',
             ]), [
                 'on_sale' => true,
                 'rating'  => 5,

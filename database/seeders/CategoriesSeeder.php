@@ -11,50 +11,81 @@ class CategoriesSeeder extends Seeder
     {
         $categories = [
             [
-                'name'     => '手机配件',
+                'name'     => '手机数码',
                 'children' => [
-                    ['name' => '手机壳'],
-                    ['name' => '贴膜'],
-                    ['name' => '存储卡'],
-                    ['name' => '数据线'],
-                    ['name' => '充电器'],
                     [
-                        'name'     => '耳机',
+                        'name'     => '手机通讯',
                         'children' => [
-                            ['name' => '有线耳机'],
-                            ['name' => '蓝牙耳机'],
+                            ['name' => '手机','image' => 'https://img10.360buyimg.com/focus/s140x140_jfs/t11503/241/2246064496/4783/cea2850e/5a169216N0701c7f1.jpg'],
+                        ],
+                    ],
+                    [
+                        'name'     => '手机配件',
+                        'children' => [
+                            ['name' => '数据线','image' => 'https://img12.360buyimg.com/focus/s140x140_jfs/t18055/312/1342501458/9462/4699ed8a/5ac48672N11cf61fe.jpg'],
                         ],
                     ],
                 ],
             ],
             [
-                'name'     => '电脑配件',
+                'name'     => '电脑办公',
                 'children' => [
-                    ['name' => '显示器'],
-                    ['name' => '显卡'],
-                    ['name' => '内存'],
-                    ['name' => 'CPU'],
-                    ['name' => '主板'],
-                    ['name' => '硬盘'],
+                    [
+                        'name'     => '电脑整机',
+                        'children' => [
+                            ['name' => '笔记本','image' => 'https://img11.360buyimg.com/focus/s140x140_jfs/t13852/288/980080912/2623/73d2a1a5/5a17b976N7ab8a3a6.jpg'],
+                        ],
+                    ],
+                    [
+                        'name'     => '电脑配件',
+                        'children' => [
+                            ['name' => '内存','image' => 'https://img13.360buyimg.com/focus/s140x140_jfs/t12430/209/999346936/2994/bc6ab03f/5a17b5f6N09faf599.jpg'],
+                        ],
+                    ],
                 ],
             ],
             [
-                'name'     => '电脑整机',
+                'name'     => '家用电器',
                 'children' => [
-                    ['name' => '笔记本'],
-                    ['name' => '台式机'],
-                    ['name' => '平板电脑'],
-                    ['name' => '一体机'],
-                    ['name' => '服务器'],
-                    ['name' => '工作站'],
+                    [
+                        'name'     => '厨房小电',
+                        'children' => [
+                            ['name' => '电磁炉','image' => 'https://img13.360buyimg.com/focus/s140x140_jfs/t11209/197/2422417970/2811/d167e855/5a17f1edN56abbe6e.jpg'],
+                        ],
+                    ],
                 ],
             ],
-			[
-                'name'     => '手机通讯',
+            [
+                'name'     => '男装',
                 'children' => [
-                    ['name' => '智能机'],
-                    ['name' => '老人机'],
-                    ['name' => '对讲机'],
+                    [
+                        'name'     => '男士外套',
+                        'children' => [
+                            ['name' => '短袖T恤','image' => 'https://img13.360buyimg.com/focus/s140x140_jfs/t18436/155/1324938407/6646/1a66cfa0/5ac47fffNe7a93aca.jpg'],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'name'     => '女装',
+                'children' => [
+                    [
+                        'name'     => '上装',
+                        'children' => [
+                            ['name' => '白衬衫','image' => 'https://img11.360buyimg.com/focus/s140x140_jfs/t14266/108/2448202334/2099/c038057b/5a9fbfc7N33c2ad32.jpg'],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'name'     => '美妆护肤',
+                'children' => [
+                    [
+                        'name'     => '香水',
+                        'children' => [
+                            ['name' => '女士香水','image' => 'https://img13.360buyimg.com/focus/s140x140_jfs/t21634/217/114542271/9364/cbd83d13/5afd3c4bNc8d91bef.jpg'],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -70,6 +101,8 @@ class CategoriesSeeder extends Seeder
         $category = new Category(['name' => $data['name']]);
 		// 如果有 children 字段则代表这是一个父类目
         $category->is_directory = isset($data['children']);
+        // 如果image插入图片
+        $category->image = isset($data['image'])?$data['image']:'';
 		// 如果有传入 $parent 参数，代表有父类目
         if (!is_null($parent)) {
             $category->parent()->associate($parent);
