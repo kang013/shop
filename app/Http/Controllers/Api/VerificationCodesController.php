@@ -15,7 +15,7 @@ class VerificationCodesController extends Controller
         $captchaData = \Cache::get($request->captcha_key);
 
         if (!$captchaData) {
-            abort(403, '图片验证码已失效');
+            throw new AuthenticationException('图片验证码已失效');
         }
 
         if (!hash_equals($captchaData['code'], $request->captcha_code)) {

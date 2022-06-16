@@ -16,7 +16,7 @@ class UsersController extends Controller
         $verifyData = \Cache::get($request->verification_key);
 
         if (!$verifyData) {
-            abort(403, '验证码已失效');
+            throw new AuthenticationException('验证码已失效');
         }
 
         // 使用 hash_equals 比较两个字符串，无论字符串是否相等，函数的时间消耗是恒定的，这样可以有效的防止时序攻击
