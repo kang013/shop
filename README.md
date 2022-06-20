@@ -48,6 +48,7 @@ http://shop.zq525.cn
 
 # 后台
 http://laravel-shop.zq525.cn/admin
+
 账户：test
 密码：test
 
