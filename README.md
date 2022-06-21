@@ -40,6 +40,8 @@ php artisan es:migrate
 ```
 php artisan es:sync-products
 ```
+# 前端代码
+https://github.com/kang013/mall/tree/master
 
 # 网页版
 http://shop.zq525.cn
