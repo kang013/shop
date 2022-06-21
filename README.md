@@ -7,39 +7,31 @@
 - Elasticsearch
 
 下载composer依赖
+
 ```
 composer install
 ```
+windows环境下请手动删除composer.json里的laravel/horizon
+执行
+```
+composer update
+```
+
 创建配置文件
 ```
 cp .env.example .env
 ```
+
+安装
 ```
-php artisan key:generate
+php artisan install:init
 ```
-```
-php artisan jwt:secret
-```
-执行数据库迁移
-```
-php artisan migrate
-```
-生成假数据
-```
-php artisan db:seed
-```
+
 创建后台账号
 ```
 php artisan admin:create-user
 ```
-Elasticsearch 的迁移命令
-```
-php artisan es:migrate
-```
-同步商品数据到 Elasticsearch
-```
-php artisan es:sync-products
-```
+
 # 前端代码
 [mall](https://github.com/kang013/mall/tree/master)
 
